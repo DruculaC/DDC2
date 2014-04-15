@@ -1,4 +1,4 @@
-C51 COMPILER V9.51   TIMER                                                                 04/09/2014 12:27:21 PAGE 1   
+C51 COMPILER V9.51   TIMER                                                                 04/15/2014 14:04:23 PAGE 1   
 
 
 C51 COMPILER V9.51, COMPILATION OF MODULE TIMER
@@ -62,7 +62,7 @@ line level    source
   51          tByte nearby_away_interval = 0;     //附机离开和靠近时，语音提示和开关锁的时间间隔
   52          bit magnet_ACW_flag=0;
   53          
-C51 COMPILER V9.51   TIMER                                                                 04/09/2014 12:27:21 PAGE 2   
+C51 COMPILER V9.51   TIMER                                                                 04/15/2014 14:04:23 PAGE 2   
 
   54          // ------ Private variable definitions -----------------------------
   55          tByte timer0_8H, timer0_8L, timer1_8H, timer1_8L;     // register value of timer0 and timer1, caculated from 
@@ -126,7 +126,7 @@ line level    source
  108   2            }
  109   1                        
  110   1         // detect whether key is rotated on,  
-C51 COMPILER V9.51   TIMER                                                                 04/09/2014 12:27:21 PAGE 3   
+C51 COMPILER V9.51   TIMER                                                                 04/15/2014 14:04:23 PAGE 3   
 
  111   1         if((key_rotate == 1)&&(key_rotated_on_flag == 0))     
  112   1            {
@@ -190,7 +190,7 @@ line level    source
  170   3               }
  171   2            }
  172   1         if((host_stolen_alarm2_EN == 1)&&(host_stolen_alarm2_count < 4))
-C51 COMPILER V9.51   TIMER                                                                 04/09/2014 12:27:21 PAGE 4   
+C51 COMPILER V9.51   TIMER                                                                 04/15/2014 14:04:23 PAGE 4   
 
  173   1            {
  174   2            stolen_alarm_flag = 1;
@@ -254,7 +254,7 @@ line level    source
  232   6                           {
  233   7                           sensor_2ndstage_count = 0;
  234   7                           sensor_trigger_count = 2;
-C51 COMPILER V9.51   TIMER                                                                 04/09/2014 12:27:21 PAGE 5   
+C51 COMPILER V9.51   TIMER                                                                 04/15/2014 14:04:23 PAGE 5   
 
  235   7                           host_2ndtouch_speech_count = 0;
  236   7                           // alarm speech for 2nd touch
@@ -318,7 +318,7 @@ line level    source
  294   3                  {
  295   4                  if(++wire_broken_count > 50)
  296   4                     {
-C51 COMPILER V9.51   TIMER                                                                 04/09/2014 12:27:21 PAGE 6   
+C51 COMPILER V9.51   TIMER                                                                 04/15/2014 14:04:23 PAGE 6   
 
  297   5                     host_stolen_alarm1_EN = 1;
  298   5                     host_stolen_alarm2_EN = 1; 
@@ -382,7 +382,7 @@ line level    source
  356   4                     {
  357   5                     raised_fell_flag = 1;               
  358   5                     }
-C51 COMPILER V9.51   TIMER                                                                 04/09/2014 12:27:21 PAGE 7   
+C51 COMPILER V9.51   TIMER                                                                 04/15/2014 14:04:23 PAGE 7   
 
  359   4                  }     
  360   3               }
@@ -446,7 +446,7 @@ line level    source
  418   1         
  419   1         // receive a tyte
  420   1         receive_byte();
-C51 COMPILER V9.51   TIMER                                                                 04/09/2014 12:27:21 PAGE 8   
+C51 COMPILER V9.51   TIMER                                                                 04/15/2014 14:04:23 PAGE 8   
 
  421   1         
  422   1         // receive a word after every byte
@@ -510,7 +510,7 @@ line level    source
  480          ---------------------------------------------------*/
  481          
  482          void InitTimer(const tByte Tick_ms_T0, Tick_us_T1)
-C51 COMPILER V9.51   TIMER                                                                 04/09/2014 12:27:21 PAGE 9   
+C51 COMPILER V9.51   TIMER                                                                 04/15/2014 14:04:23 PAGE 9   
 
  483             {
  484   1         tLong Inc_T0, Inc_T1;

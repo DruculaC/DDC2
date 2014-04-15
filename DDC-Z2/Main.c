@@ -96,6 +96,8 @@ void main()
    
 	vibration_flag = 1;
 	
+	wire_broken = 0;
+	
 	// lock the external motor, 防止锁还没完全打开的时候，车手加电导致轮子与锁的告诉碰撞。 
 	motor_lock = 1;
 	

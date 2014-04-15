@@ -1,4 +1,4 @@
-C51 COMPILER V9.51   OPERATION                                                             04/09/2014 12:27:21 PAGE 1   
+C51 COMPILER V9.51   OPERATION                                                             04/15/2014 14:04:23 PAGE 1   
 
 
 C51 COMPILER V9.51, COMPILATION OF MODULE OPERATION
@@ -62,7 +62,7 @@ line level    source
   50             operation for slave is away
   51          ------------------------------------------*/
   52          void slave_away_operation(void)
-C51 COMPILER V9.51   OPERATION                                                             04/09/2014 12:27:21 PAGE 2   
+C51 COMPILER V9.51   OPERATION                                                             04/15/2014 14:04:23 PAGE 2   
 
   53             {
   54   1         // turn off the magnet 
@@ -126,7 +126,7 @@ line level    source
  112   1         wire_broken_count = 0;
  113   1         
  114   1         sensor_3rdalarm_flag = 0;
-C51 COMPILER V9.51   OPERATION                                                             04/09/2014 12:27:21 PAGE 3   
+C51 COMPILER V9.51   OPERATION                                                             04/15/2014 14:04:23 PAGE 3   
 
  115   1         }
  116             

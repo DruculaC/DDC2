@@ -62,7 +62,7 @@ void verifybattery(tWord Check2)
 		voice_EN = 0;
 		}                     
 	// battery is low, battery < 46V
-	else if((Check2 < 0x2a4)&&(key_rotated_on_flag == 1))
+	else if(Check2 < 0x2a4)
 		{
 		motorBAT_low_speech();
 		}
