@@ -9,6 +9,7 @@
 
 #include "Other.h"
 #include "Delay.h"
+#include "communication.h"
 
 /*-------------------------------------------------------
 	magnet_CW()
@@ -16,8 +17,10 @@
 --------------------------------------------------------*/
 void magnet_CW(void)
 	{
-	MagentControl_1 = 0;
-	MagentControl_2 = 1;
+	send_code_to_lock();
+
+	MagentControl_1 = 1;
+	MagentControl_2 = 0;
 	magnet_delay();
 	MagentControl_1 = 1;
 	MagentControl_2 = 1;
@@ -31,8 +34,8 @@ void magnet_CW(void)
 void magnet_ACW(void)
 	{
 	motor_lock = 1;
-	MagentControl_1 = 1;
-	MagentControl_2 = 0;
+	MagentControl_1 = 0;
+	MagentControl_2 = 1;
 	magnet_delay();
 	MagentControl_1 = 1;
 	MagentControl_2 = 1;

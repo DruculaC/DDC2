@@ -77,7 +77,7 @@ void main()
 	P10=1;
 	
 	magnet_ACW_flag=0;
-   horizontal_sensor = 1;
+	horizontal_sensor = 1;
 	// open communication
 	comm_whole_control = 1; 
 	
@@ -97,6 +97,8 @@ void main()
 	vibration_flag = 1;
 	
 	wire_broken = 0;
+	
+	key_rotate = 1;
 	
 	// lock the external motor, 防止锁还没完全打开的时候，车手加电导致轮子与锁的告诉碰撞。 
 	motor_lock = 1;

@@ -29,7 +29,7 @@ tWord GetADCResult(tByte ch)
 		AADR1 = 0;
 		AADR2 = 1;
 	                                                                  
-	   ADCCON1 |= 0x80;                                          
+		ADCCON1 |= 0x80;                                          
 		
 		ADCI = 0;                                           
     	ADCS = 1;  

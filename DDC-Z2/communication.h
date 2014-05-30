@@ -31,6 +31,7 @@ void ComMode_4_Data(void);
 void ComMode_5_Data(void);
 void receive_byte(void);
 void receive_word(void);
+void send_code_to_lock(void);	
 
 #endif
 											

@@ -1,16 +1,16 @@
-C51 COMPILER V9.51   OTHER                                                                 04/15/2014 14:04:23 PAGE 1   
+C51 COMPILER V9.51   OTHER                                                                 05/29/2014 15:12:34 PAGE 1   
 
 
 C51 COMPILER V9.51, COMPILATION OF MODULE OTHER
 OBJECT MODULE PLACED IN Other.OBJ
-COMPILER INVOKED BY: D:\Program Files (x86)\keil\C51\BIN\C51.EXE Other.c BROWSE DEBUG OBJECTEXTEND TABS(3)
+COMPILER INVOKED BY: D:\Program Files (x86)\keil\C51\BIN\C51.EXE Other.c BROWSE DEBUG OBJECTEXTEND
 
 line level    source
 
    1          /*---------------------------------------------------
-   2             Other.c (v1.00)
-   3             
-   4             其他程序
+   2                  Other.c (v1.00)
+   3                  
+   4                  其他程序
    5          ---------------------------------------------------*/
    6          
    7          #include "main.h"
@@ -18,47 +18,52 @@ line level    source
    9          
   10          #include "Other.h"
   11          #include "Delay.h"
-  12          
-  13          /*-------------------------------------------------------
-  14             magnet_CW()
-  15             电磁铁正转，顺时针，将锁打开
-  16          --------------------------------------------------------*/
-  17          void magnet_CW(void)
-  18             {
-  19   1         MagentControl_1 = 0;
-  20   1         MagentControl_2 = 1;
-  21   1         magnet_delay();
-  22   1         MagentControl_1 = 1;
-  23   1         MagentControl_2 = 1;
-  24   1         motor_lock = 0;
-  25   1         }
-  26          
-  27          /*-------------------------------------------------------
-  28             magnet_ACW()
-  29             电磁铁反转，逆时针，将锁关闭
-  30          --------------------------------------------------------*/
-  31          void magnet_ACW(void)
-  32             {
-  33   1         motor_lock = 1;
-  34   1         MagentControl_1 = 1;
-  35   1         MagentControl_2 = 0;
-  36   1         magnet_delay();
-  37   1         MagentControl_1 = 1;
-  38   1         MagentControl_2 = 1;
-  39   1         }
-  40          /*---------------------------------------------------
-  41             end of file
-  42          ----------------------------------------------------*/
+  12          #include "communication.h"
+  13          
+  14          /*-------------------------------------------------------
+  15                  magnet_CW()
+  16                  电磁铁正转，顺时针，将锁打开
+  17          --------------------------------------------------------*/
+  18          void magnet_CW(void)
+  19                  {
+  20   1              send_code_to_lock();
+  21   1      
+  22   1              MagentControl_1 = 1;
+  23   1              MagentControl_2 = 0;
+  24   1              magnet_delay();
+  25   1              MagentControl_1 = 1;
+  26   1              MagentControl_2 = 1;
+  27   1              motor_lock = 0;
+  28   1              }
+  29          
+  30          /*-------------------------------------------------------
+  31                  magnet_ACW()
+  32                  电磁铁反转，逆时针，将锁关闭
+  33          --------------------------------------------------------*/
+  34          void magnet_ACW(void)
+  35                  {
+  36   1              motor_lock = 1;
+  37   1              MagentControl_1 = 0;
+  38   1              MagentControl_2 = 1;
+  39   1              magnet_delay();
+  40   1              MagentControl_1 = 1;
+  41   1              MagentControl_2 = 1;
+  42   1              }
+  43          /*---------------------------------------------------
+  44                  end of file
+  45          ----------------------------------------------------*/
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     28    ----
+   CODE SIZE        =     31    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
+C51 COMPILER V9.51   OTHER                                                                 05/29/2014 15:12:34 PAGE 2   
+
 END OF MODULE INFORMATION.
 
 
