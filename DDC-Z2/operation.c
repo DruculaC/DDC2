@@ -11,6 +11,7 @@
 #include "voice.h"
 #include "battery.h"
 #include "delay.h"
+#include "AD.h"
 
 /*------- Public variable declarations --------------------------*/
 extern bit slave_away_speech_EN;      
@@ -43,6 +44,9 @@ extern tByte key_rotated_on_flag;			//电动车开启关闭标志位，1表示电动车开启了，0
 extern tWord ADC_check_result;		//作为AD检测值
 extern tByte wire_broken_count;		// 作为断线后的时间检测
 extern bit sensor_3rdalarm_flag;
+extern bit ADC_timecount_EN;
+bit BAT_Lowflag = 0;				// 电池电量低的标志位
+bit enable_sensor_delayEN = 0;		// 关钥匙后，延迟传感器的打开
 
 /*-----------------------------------------
 	slave_away_operation().c
@@ -52,20 +56,19 @@ extern bit sensor_3rdalarm_flag;
 void slave_away_operation(void)
 	{
 	// turn off the magnet 
+	while(wheeled_flag);
 	magnet_ACW();
 	
 	// speech for slave away
 	slave_away_speech();
 	
+//	enable_sensor();	
+	enable_sensor_delayEN = 1;
 	
-	// enable position sensor(vertical and horizontal) and vibration sensor
-	position_sensor_EN=1;	
-	sensor_EN = 1;
-	// reset relatively sensor count
-	sensor_trigger_count=0;
-	sensor_1ststage_count=0;
+	// turn off ADC timer
+//	ADC_timecount_EN = 0;
 	
-	// delay time, avoid sensor trigger on.
+	// delay time, avoid sensor trigger on.	
 	Delay(20);
 	}
 
@@ -74,7 +77,7 @@ void slave_away_operation(void)
 		operation for slave is nearby
 ----------------------------------------------------------------------*/
 void slave_nearby_operation(void)
-	{
+	{	
 	// turn on the magnet
 	magnet_CW();
 
@@ -86,32 +89,10 @@ void slave_nearby_operation(void)
 	key_rotate_on_speech();
 	nearby_away_interval = 0;
 	
-	// enable position sensor(vertical and horizontal) and vibration sensor
-	position_sensor_EN = 0;	
-	sensor_EN = 0;
-	// reset all the flag in sensor
-	fell_flag=0;  
-	raised_flag=0;
-	sensor_trigger_count = 0;
-	sensor_1ststage_count = 0;
-	sensor_2ndstage_count = 0;
-	sensor_2ndstage_time = 0;
-	sensor_3rdstage_time = 0;
-	sensor_3rdstage_interval = 0;
-	sensor_3rdstage_count = 0;
-	sensor_3rdstage_effcount = 0;
-	stolen_alarm_flag = 0;
-	host_stolen_alarm1_EN = 0;
-	host_stolen_alarm1_count = 0;
-	host_stolen_alarm2_EN = 0;
-	host_stolen_alarm2_count = 0;
+	// turn on ADC timer
+	ADC_timecount_EN = 1;
 	
-	raised_fell_flag = 0;
-	
-	// reset the wire broken count
-	wire_broken_count = 0;
-	
-	sensor_3rdalarm_flag = 0;
+	disable_sensor();
 	}
 	
 /*---------------------------------------------------

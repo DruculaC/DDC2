@@ -13,6 +13,7 @@
 
 void InitTimer(const tByte Tick_ms_T0, Tick_us_T1);
 void sEOS_Go_To_Sleep();
+void InitT0(const tByte Tick_ms_T0);
 
 #endif
 											

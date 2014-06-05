@@ -17,6 +17,7 @@
 #include "Battery.h"
 #include "Other.h"
 #include "operation.h"
+#include "UART.h"
                                         
 /*------- Public variable declarations --------------------------*/
 extern bit stolen_alarm_flag;		//主机被盗报警标志，1的时候表示触发		
@@ -57,13 +58,22 @@ extern tByte key_rotated_on_flag;			//电动车开启关闭标志位，1表示电动车开启了，0
 extern tByte slave_nearby_operation_count;	// 作为slave靠近后操作的次数
 extern tWord ADC_check_result;		//作为AD检测值
 extern bit vibration_flag;
+extern bit BAT_Lowflag;
+extern bit sensor_EN;
 
 /*------- Private variable declarations --------------------------*/
 
 void main()
 	{
-	InitTimer(1,100);
-	
+	InitUART();
+	InitT0(1);
+	TI = 0;
+	RI = 0;
+	ES = 1;
+	ET0 = 1;
+	PS = 1;
+	EA = 1;
+
 	sensor_EN = 0;
  	position_sensor_EN = 0;
 
@@ -98,11 +108,13 @@ void main()
 	
 	wire_broken = 0;
 	
-	key_rotate = 1;
-	
 	// lock the external motor, 防止锁还没完全打开的时候，车手加电导致轮子与锁的告诉碰撞。 
 	motor_lock = 1;
-	
+
+	wheeled_flag = 1;
+//	key_rotate = 0;
+	BAT_Lowflag = 1;
+	magnet_ACW();
 	while(1)
 		{
 		sEOS_Go_To_Sleep();

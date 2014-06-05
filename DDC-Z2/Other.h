@@ -13,6 +13,8 @@
 
 void magnet_CW(void);
 void magnet_ACW(void);
+void disable_sensor(void);
+void enable_sensor(void);
 
 #endif
 											

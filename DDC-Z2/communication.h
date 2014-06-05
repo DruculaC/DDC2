@@ -8,6 +8,12 @@
 #define _COMMUNICATION_H
 
 //-----public constants--------------------------------
+// ¶¨ÒåIDcardµÄÃÜÂë
+#define IDkey0 0x00
+#define IDkey1 0x00
+#define IDkey2 0x00
+#define IDkey3 0x23
+#define IDkey4 0xF0
 
 #define CmdHead 0xc8
 #define MyAddress 0xe0

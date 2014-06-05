@@ -487,16 +487,16 @@ void send_code_to_lock(void)
 			if((myTxRxData[i]&0x80) == 0x80)//为1
 			{
 				MagentControl_2 = 0;
-				Delay4(120);//延时4.5ms以上，由于定时器占用问题，只能用这种延时来实现
+				Delay4(176);//延时4.5ms以上，由于定时器占用问题，只能用这种延时来实现
 			}
 			else//为0的情况
 			{
 				MagentControl_2 = 0;
-				Delay4(80);//延时2ms，由于定时器占用问题，只能用这种延时来实现
+				Delay4(117);//延时2ms，由于定时器占用问题，只能用这种延时来实现
 			}
 			MagentControl_2 = 1;		//常态为高电平
 			myTxRxData[i] <<= 1;
-			Delay4(50);		//延时要大于2ms
+			Delay4(74);		//延时要大于2ms
 		}
 	}
 }

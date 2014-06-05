@@ -87,11 +87,11 @@ void key_rotate_on_speech(void)
 			{
 			voice_EN = 1;
 			SC_Speech(14);  
-			Delay(30);
+			Delay(60);
 			SC_Speech(18);  
-			Delay(30);
-			SC_Speech(11);  
 			Delay(50);
+			SC_Speech(11);  
+			Delay(70);
 			voice_EN = 0;
          key_rotate_on_speech_number = 2;
 			}
@@ -101,9 +101,9 @@ void key_rotate_on_speech(void)
 			{
 			voice_EN = 1;
 			SC_Speech(14);  
-			Delay(25);
+			Delay(35);
 			SC_Speech(12);  
-			Delay(50);
+			Delay(60);
 			voice_EN = 0;
          key_rotate_on_speech_number = 1;			
 			}
@@ -131,7 +131,7 @@ void motorBAT_low_speech(void)
 	{
 	voice_EN = 1;
 	SC_Speech(6);
-	Delay(60);
+	Delay(80);
 	voice_EN = 0;
 	}
 
@@ -143,7 +143,7 @@ void host_touch_speech(void)
 	{
 	voice_EN = 1;
 	SC_Speech(2);  
-	Delay(60);
+	Delay(90);
 	voice_EN = 0;
 	}
 
@@ -155,7 +155,7 @@ void host_2ndtouch_speech(void)
 	{
 	voice_EN = 1;
 	SC_Speech(27);  
-	Delay(85);
+	Delay(140);
 	voice_EN = 0;
 	}
 	
@@ -167,7 +167,7 @@ void stolen_alarm_speech1(void)
 	{
 	voice_EN = 1;
 	SC_Speech(3); 
-	Delay(160);
+	Delay(180);
 	voice_EN = 0; 
 	}
 
@@ -179,7 +179,7 @@ void stolen_alarm_speech2(void)
 	{
 	voice_EN = 1;
 	SC_Speech(22); 
-	Delay(160);
+	Delay(180);
 	voice_EN = 0;
 	Delay(20);
 	}
@@ -193,7 +193,7 @@ void slave_nearby_speech(void)
 	{
 	voice_EN=1;
 	SC_Speech(23); 
-	Delay(50);
+	Delay(60);
 	voice_EN=0;
 	}
 
@@ -207,10 +207,10 @@ void slave_away_speech(void)
 	voice_EN = 1;
 	// 车锁已锁上
 	SC_Speech(24);  
-	Delay(50);
+	Delay(60);
 	// 祝您平安返回
 	SC_Speech(13);
-	Delay(70);
+	Delay(80);
 	voice_EN = 0;
 	}
 

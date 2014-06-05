@@ -9,8 +9,8 @@
 
 #include "main.h"
 
-// P2.4，PIN15，连接到钥匙转动，钥匙转开时，此pin为1；钥匙关闭时，此pin为0
-sbit key_rotate = P2^4;			
+// P2.5，PIN16，连接到钥匙转动，钥匙转开时，此pin为1；钥匙关闭时，此pin为0
+sbit key_rotate = P2^5;			
 
 // P2.6，PIN27，发射机的功率控制。1表示小功率，0表示大功率。大功率发射距离远。
 sbit transmiter_power = P2^6;
@@ -20,9 +20,6 @@ sbit transmiter_EN = P2^7;
 
 // P0.0, PIN3, horizontal sensor input
 sbit sensor_detect = P0^0;
-
-// P2.5，PIN16，传感器的使能控制，1表示打开，0表示关闭
-sbit sensor_EN=P2^5;
 
 // P2.2，P2.3，分别为PIN13，PIN14，电磁铁,  平时值为00，开锁用10，关锁有01，然后都恢复到00
 sbit MagentControl_1 = P2^2;
@@ -58,6 +55,9 @@ sbit wire_broken = P0^1;
 
 // P1.2, PIN12, 电磁铁过流检测
 sbit magnet_overcurrent = P1^2;
+
+// P0.2, PIN25, 车轮转动检测
+sbit wheeled_flag = P0^2;
 
 #endif
 											

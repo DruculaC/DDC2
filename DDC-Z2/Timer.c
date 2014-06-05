@@ -85,6 +85,15 @@ tWord horizontal_vibration_count = 0;	//垂直传感器触发后，对时间进行计数。
 bit vibration_flag = 0;
 tWord vibration_count = 0;
 bit sensor_3rdalarm_flag = 0;
+tByte IDkey5 = IDkey0^IDkey1^IDkey2^IDkey3^IDkey4;		// 由前5位密码组成的异或
+bit IDkey_flag = 0;			// 当ID卡靠近时认证通过后置1，
+tByte IDkey_count = 0;		// ID卡认证通过后，计时1分钟，使钥匙能转动。
+bit ADC_timecount_EN = 0;	// ADC启动使能
+tWord ADC_timecount = 0;
+extern bit BAT_Lowflag;
+bit sensor_EN = 0;
+tByte enable_sensor_delay_count = 0;		// 传感器延迟的时间
+extern bit enable_sensor_delayEN;
 
 /*------------------------------------------------------------------
 	timerT0()
@@ -103,28 +112,62 @@ void timer0() interrupt interrupt_timer_0_overflow
 		// reset timer0 ticket counter every 2s
 		timer0_count=0;
 		
-		// detect the battery voltage
-		ADC_check_result = GetADCResult(6);	
-		}
-						
-	// detect whether key is rotated on,  
-	if((key_rotate == 1)&&(key_rotated_on_flag == 0))		
-		{
-		Delay(5);
-		// anti-trigger, Delay(5) confirm the key rotation.
-		if(key_rotate == 1)
+
+		if(ADC_timecount_EN == 1)
 			{
-			slave_nearby_operation();
-			// flag key rotation status
-			key_rotated_on_flag = 1;
+			if(++ADC_timecount >= 1)
+				{
+				// detect the battery voltage
+				ADC_check_result = GetADCResult(6);
+				ADC_timecount = 0;
+				}
 			}
-		} 
+		
+		if(IDkey_flag == 1)
+			{
+			if(++IDkey_count >= 10)
+				{
+				IDkey_count = 0;
+				IDkey_flag = 0;
+				enable_sensor();                  					
+				}			
+			}
+		
+		if((enable_sensor_delayEN == 1)&&(key_rotate == 0))
+			{
+			if(++enable_sensor_delay_count >= 15)
+				{
+				enable_sensor_delay_count = 0;
+				enable_sensor_delayEN = 0;
+				enable_sensor();
+				}
+			}
+		}
+	
+	if(IDkey_flag == 1)
+		{
+		// detect whether key is rotated on,  
+		if((key_rotate == 1)&&(key_rotated_on_flag == 0))		
+			{
+			Delay(5);
+			// anti-trigger, Delay(5) confirm the key rotation.
+			if(key_rotate == 1)
+				{
+				slave_nearby_operation();
+				// flag key rotation status
+				key_rotated_on_flag = 1;
+				
+				IDkey_count = 0;
+				IDkey_flag = 0;
+				}
+			} 		
+		}
 		
 	
 	// detect whether key is rotated off
 	if((key_rotate == 0)&&(key_rotated_on_flag == 1))
 		{
-		if(vibration_flag == 0)
+		if((vibration_flag == 0)&&(wheeled_flag == 0))
 			{
 			Delay(5);
 			if(key_rotate == 0)
@@ -187,7 +230,7 @@ void timer0() interrupt interrupt_timer_0_overflow
 				
 
 	// judge host is fell or raised every 1ms?
-	if(raised_fell_flag == 0)
+	if((raised_sensor_detect == 1)&&(fell_sensor_detect == 1))
 		{
 		// judge vibration sensor is enable?
 		if(sensor_EN == 1)	
@@ -259,7 +302,7 @@ void timer0() interrupt interrupt_timer_0_overflow
 					if((sensor_detect == 0)||(horizontal_sensor == 0))
 						{
 						// 2s LV is a effective touch
-						if(++sensor_3rdstage_count >= 2)
+						if(++sensor_3rdstage_count >= 1)
 							{
 							sensor_3rdstage_count = 0;
 							// stolen alarm speech enable
@@ -404,11 +447,57 @@ void timer0() interrupt interrupt_timer_0_overflow
 		}
  	}
 
+/*-----------------------------------------------
+	用UART端口接收数据，9600波特率，收到后表示
+	认证已通过。
+-----------------------------------------------*/
+void uart_isr() interrupt 4 //中断接收数据
+	{
+	if(RI)
+		{
+		RI=0;
+
+		// assign one byte to buffer[i] 
+		received_data_buffer[data_count] = SBUF;
+		
+		// judge whether buffer[0] is CmdHead
+		if((data_count == 0) && (received_data_buffer[0] == IDkey0))
+			{
+			data_count = 1;
+			}
+		else if((data_count == 1) && (received_data_buffer[1] == IDkey1))
+			{
+			data_count = 2;
+			}
+		else if((data_count == 2) && (received_data_buffer[2] == IDkey2))
+			{
+			data_count = 3;
+			}
+		else if((data_count == 3) && (received_data_buffer[3] == IDkey3))
+			{
+			data_count = 4;
+			}
+		else if((data_count == 4) && (received_data_buffer[4] == IDkey4))
+			{
+			data_count = 5;
+			}
+		else if((data_count == 5) && (received_data_buffer[5] == IDkey5))
+			{
+			data_count = 0;	
+			IDkey_flag = 1;
+			IDkey_count = 0;
+			disable_sensor();
+			}
+		else 
+			{
+			data_count = 0;
+			}
+		}
+	}
 
 /*--------------------------------------------------------------------
 	timerT1()
 	定时器1每次溢出后执行的操作
---------------------------------------------------------------------*/
 
 void timerT1() interrupt interrupt_timer_1_overflow
 	{
@@ -472,12 +561,12 @@ void timerT1() interrupt interrupt_timer_1_overflow
 			}
 		}
 	}
+--------------------------------------------------------------------*/
 
 /*--------------------------------------------------
 	InitTimer()
 	
 	初始化定时器T0和T1
----------------------------------------------------*/
 
 void InitTimer(const tByte Tick_ms_T0, Tick_us_T1)
 	{
@@ -510,6 +599,24 @@ void InitTimer(const tByte Tick_ms_T0, Tick_us_T1)
 	PT1 = 1;			
 	EA = 1;
 	}
+---------------------------------------------------*/
+
+/*-----------------------------------------------------------------
+	初始化T0，在初始化了串口之后
+-----------------------------------------------------------------*/
+void InitT0(const tByte Tick_ms_T0)
+{
+	tLong Inc_T0;
+	tWord timer0_16;
+	
+	//计算Timer0的寄存器值
+	Inc_T0 = (tLong)Tick_ms_T0 * (OSC_FREQ/1000) / (tLong)OSC_PER_INST;
+	timer0_16 = (tWord) (65536UL - Inc_T0);
+	timer0_8H = (tByte) (timer0_16 / 256);
+	timer0_8L = (tByte) (timer0_16 % 256);
+	TMOD = 0x21;
+	TR0=1;
+}
 
 /*---------------------------------------------------------------------
 	sEos_Go_To_Sleep()

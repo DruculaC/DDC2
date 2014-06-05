@@ -1,25 +1,3 @@
-
-
-
-#define FOSC 13500000L
-#define BAUD 600
-
-
-
-
-//定义通信命令
-
-
-
-
-
-extern unsigned char code PassWord[1000];
-
-
-
-
-
-
 /*
 函数名： void InitUART()
 功能： 	初始化UART

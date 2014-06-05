@@ -8,5 +8,6 @@
 "Battery.obj",
 "Other.obj",
 "Timer.obj",
-"operation.obj" 
+"operation.obj",
+"UART.obj" 
 TO "DDC-Z2" 

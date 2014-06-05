@@ -23,6 +23,9 @@
 // 2 - Dallas 420, etc
 #define OSC_PER_INST (12)
 
+// baud rate defined
+#define BAUD 9600
+
 //---------------------------------------------------
 // should not need to edit the sections below
 //---------------------------------------------------
